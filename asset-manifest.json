@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/minetracker/static/css/main.e3591517.css",
+    "main.js": "/minetracker/static/js/main.61d48482.js",
+    "static/js/787.29662997.chunk.js": "/minetracker/static/js/787.29662997.chunk.js",
+    "index.html": "/minetracker/index.html",
+    "main.e3591517.css.map": "/minetracker/static/css/main.e3591517.css.map",
+    "main.61d48482.js.map": "/minetracker/static/js/main.61d48482.js.map",
+    "787.29662997.chunk.js.map": "/minetracker/static/js/787.29662997.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e3591517.css",
+    "static/js/main.61d48482.js"
+  ]
+}
