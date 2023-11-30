@@ -23,7 +23,7 @@ export default function App() {
   useEffect(() => {
     // build the query string
     // defaults for the text inputs prevent everything breaking when no input
-    let queryString = "http://kennypeng15.pythonanywhere.com/data?";
+    let queryString = "https://kennypeng15.pythonanywhere.com/data?";
     queryString += ("difficulty=" + difficulty);
     queryString = queryString + "&solved=" + solvedOnly;
     queryString = queryString + "&solved_percent_threshold=" + (minSolvedPercent.length > 0 ? minSolvedPercent : "100");
