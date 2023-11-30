@@ -18,6 +18,9 @@ export default function App() {
   const [minEfficiency, setMinEfficiency] = useState("0");
   const [graphYAxis, setGraphYAxis] = useState("time")
   const [useEstimatedTime, setUseEstimatedTime] = useState(true);
+  const [regressionVisible, setRegressionVisible] = useState(true);
+  const [movingAverageVisible, setMovingAverageVisible] = useState(true);
+  const [movingAverageWindow, setMovingAverageWindow] = useState(10);
 
   // useEffect here runs EVERY TIME a state var changes
   useEffect(() => {
@@ -68,13 +71,15 @@ export default function App() {
   const minSolvedPercentRef = useRef(null);
   const minBoard3bvRef = useRef(null);
   const minEfficiencyRef = useRef(null);
+  const movingAverageWindowRef = useRef(null);
 
   // linear regression for line of best fit swag
-  const lineOfBestFitData = LinearRegression(dataList);
+  // we try and optimize somewhat here - if state indicates the regression won't be visible, don't even calculate it
+  const lineOfBestFitData = regressionVisible ? LinearRegression(dataList) : [];
 
   // MA stuff
   // TODO: display the moving average number (i.e., x in MA(x)) somewhere!
-  const movingAverageData = MovingAverage(dataList, 10);
+  const movingAverageData = movingAverageVisible ? MovingAverage(dataList, movingAverageWindow) : [];
 
   return (
     <>
@@ -115,7 +120,7 @@ export default function App() {
           <p>
             <input name="textInput1" defaultValue={minSolvedPercent} ref={minSolvedPercentRef} />
             <button onClick={() => {
-              if (parseFloat(minSolvedPercentRef.current.value) && parseInt(minSolvedPercentRef.current.value) >= 50) {
+              if (parseInt(minSolvedPercentRef.current.value) && parseInt(minSolvedPercentRef.current.value) >= 50) {
                 setMinSolvedPercent(minSolvedPercentRef.current.value.trim())
               }
               else {
@@ -168,10 +173,10 @@ export default function App() {
           {graphYAxis === "3bvps" && <YAxis type="number" dataKey="game-3bvps" name="3BV p/ second" domain={['auto', 'auto']} />}
           {graphYAxis === "efficiency" && <YAxis type="number" dataKey="efficiency" name="Efficiency" domain={['auto', 'auto']} />}
           <XAxis type="number" dataKey="epochValue" name="Unix Date" tickFormatter={(unixTime) => moment(unixTime).format('MM/DD/YY')} interval={0} domain={['auto', 'auto']} tickCount={8} padding={{ left: 35, right: 35 }} />
-          <Scatter name="Line of Best Fit" data={lineOfBestFitData} fill="#c4c3c3" shape={{}} line={{ strokeWidth: 1.5 }} />
+          <Scatter name="Line of Best Fit" data={lineOfBestFitData} fill="#c4c3c3" shape={{}} line={{ strokeWidth: 1.5 }} hide={!regressionVisible} legendType={regressionVisible ? "circle" : "none"} />
           <Scatter name="Minesweeper Games (Wins)" data={dataList.filter(d => d["board-solved"])} fill="#1ba843" shape={"circle"} onClick={d => window.open("https://minesweeper.online/game/" + d["game-id"], "_blank")} />
           <Scatter name="Minesweeper Games (Losses)" data={dataList.filter(d => !d["board-solved"])} fill="#eb904b" shape={"cross"} hide={solvedOnly} legendType={solvedOnly ? "none" : "circle"} />
-          <Scatter name={"Moving Average (" + 10 + ")"} data={movingAverageData} fill="#bb4beb" shape={{}} line={{ strokeWidth: 1 }} />
+          <Scatter name={"Moving Average (" + movingAverageWindow + ")"} data={movingAverageData} fill="#bb4beb" shape={{}} line={{ strokeWidth: 1 }} hide={!movingAverageVisible} legendType={movingAverageVisible ? "circle" : "none"} />
           <Tooltip cursor={{ strokeDasharray: '3 3' }} content={CustomTooltip} />
           {<Legend />}
         </ScatterChart>
@@ -208,6 +213,48 @@ export default function App() {
             </label>
           </p>
         </div>}
+        <div>
+          Display line of best fit?
+          <p>
+            <label>
+              <input type="radio" name="radio5" defaultChecked={true} onChange={() => setRegressionVisible(true)} /> Yes
+            </label>
+          </p>
+          <p>
+            <label>
+              <input type="radio" name="radio5" onChange={() => setRegressionVisible(false)} /> No
+            </label>
+          </p>
+        </div>
+        <div>
+          Display moving average?
+          <p>
+            <label>
+              <input type="radio" name="radio6" defaultChecked={true} onChange={() => setMovingAverageVisible(true)} /> Yes
+            </label>
+          </p>
+          <p>
+            <label>
+              <input type="radio" name="radio6" onChange={() => setMovingAverageVisible(false)} /> No
+            </label>
+          </p>
+        </div>
+        {movingAverageVisible && <div>
+          Moving average window size: (current: {movingAverageWindow})
+          <p>
+            <input name="textInput4" defaultValue={movingAverageWindow} ref={movingAverageWindowRef} />
+            <button onClick={() => {
+              if (parseInt(movingAverageWindowRef.current.value) && parseInt(movingAverageWindowRef.current.value) >= 1) {
+                setMovingAverageWindow(parseInt(movingAverageWindowRef.current.value.trim()))
+              }
+              else {
+                alert("Invalid input: moving average window must be a number greater than or equal to 1.")
+              }
+            }}>
+              Go!
+            </button>
+          </p>
+        </div>}
       </div>
 
       <hr />
@@ -229,15 +276,15 @@ export default function App() {
 
 // backlog
 // state vars controlling line of best fit visibility, moving average visibility, moving average window size
-  // maybe lump these in with the graph view options selectors
+// maybe lump these in with the graph view options selectors
 // qol: toggle to clear all filters?
 // rename to be more consistent (i.e., this-casing vs thisCasing)
 // make it look pretty, if you want
 // routing - have a homepage with links to a writeup and the graph, ...
-  // can probably use react-router-dom or whatever idk need to look it up more
+// can probably use react-router-dom or whatever idk need to look it up more
 
 // done: 
-  // input validation? for text entries
-  // clicking on (won) game takes you to the game
-  // composedChart tooltips are broken, so just use scatter with some funky business
-  // some kind of error handling
+// input validation? for text entries
+// clicking on (won) game takes you to the game
+// composedChart tooltips are broken, so just use scatter with some funky business
+// some kind of error handling
