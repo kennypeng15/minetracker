@@ -78,11 +78,19 @@ export default function App() {
   const lineOfBestFitData = regressionVisible ? LinearRegression(dataList) : [];
 
   // MA stuff
-  // TODO: display the moving average number (i.e., x in MA(x)) somewhere!
   const movingAverageData = movingAverageVisible ? MovingAverage(dataList, movingAverageWindow) : [];
 
   return (
     <>
+      <div className="header">
+        <p>
+          <h1>Welcome to MineTracker!</h1>
+        </p>
+        <p>
+          MineTracker is an app for tracking and displaying information about my minesweeper.online games.
+        </p>
+      </div>
+      <hr/>
       <div className="filter-selector">
         <div className="filter">
           Difficulty:
@@ -269,6 +277,19 @@ export default function App() {
         <div>
           {!solvedOnly && dataList.some(d => !d["board-solved"]) && <StatDisplay dataList={dataList} />}
         </div>
+      </div>
+
+      <hr/>
+
+      <div className="footer">
+        <p>
+          This page is built with the <a href="https://recharts.org/en-US/">Recharts</a> library on top of React.
+          It's hosted on GitHub Pages and deployed with the <a href="https://github.com/gitname/react-gh-pages">react-gh-pages</a> library.
+        </p>
+        <p>
+          The source code for this page, as well as for the MineTracker project in general, can be found on <a href="https://github.com/kennypeng15">my GitHub page.</a>
+        </p>
+        <p>Copyright Kenny Peng, 2023</p>
       </div>
     </>
   );
