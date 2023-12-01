@@ -87,7 +87,7 @@ export default function App() {
           <h1>Welcome to MineTracker!</h1>
         </p>
         <p>
-          MineTracker is an app for tracking and displaying information about my minesweeper.online games.
+          MineTracker is an app for tracking and displaying information about my <a href="https://minesweeper.online/">minesweeper.online</a> games.
         </p>
       </div>
       <hr/>
@@ -289,15 +289,16 @@ export default function App() {
         <p>
           The source code for this page, as well as for the MineTracker project in general, can be found on <a href="https://github.com/kennypeng15">my GitHub page.</a>
         </p>
-        <p>Copyright Kenny Peng, 2023</p>
+        <p>Made by Kenny Peng, 2023</p>
       </div>
     </>
   );
 }
 
 // backlog
-// state vars controlling line of best fit visibility, moving average visibility, moving average window size
-// maybe lump these in with the graph view options selectors
+// componentize what you can, to make this file smaller: https://react.dev/learn/importing-and-exporting-components
+// GH actions: somehow run the npm deploy, with the same commit message, after a push to main
+// dark mode ?
 // qol: toggle to clear all filters?
 // rename to be more consistent (i.e., this-casing vs thisCasing)
 // make it look pretty, if you want
@@ -309,3 +310,5 @@ export default function App() {
 // clicking on (won) game takes you to the game
 // composedChart tooltips are broken, so just use scatter with some funky business
 // some kind of error handling
+// state vars controlling line of best fit visibility, moving average visibility, moving average window size
+// maybe lump these in with the graph view options selectors
