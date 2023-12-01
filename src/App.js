@@ -23,7 +23,8 @@ export default function App() {
   const [movingAverageWindow, setMovingAverageWindow] = useState(10);
   const [latestDataTimestamp, setLatestDataTimestamp] = useState("not available yet");
 
-  // useEffect here runs EVERY TIME a state var changes
+  // use useEffect to dynamically construct a query string and obtain
+  // relevant data any time a specified state variable changes
   useEffect(() => {
     // build the query string
     // defaults for the text inputs prevent everything breaking when no input
@@ -65,16 +66,20 @@ export default function App() {
         }
         setDataList([]);
       });
-
-      // also get the latest timestamp
-      axios
-        .get("https://kennypeng15.pythonanywhere.com/latest-timestamp")
-        .then(res => {
-          setLatestDataTimestamp(res.data["latest-timestamp"]);
-        });
   }, [difficulty, solvedOnly, minSolvedPercent, minBoard3bv, minEfficiency, useEstimatedTime])
   // see https://react.dev/reference/react/useEffect#examples-dependencies
-  // possibly check out https://react.dev/reference/react-dom/components/input --> (optimizing re-rendering on every keystroke)
+
+  // this useEffect only controls the latest timestamp 
+  // we only want this to render once, sodon't include any parameters in the second argument.
+  // if, in the future, we want to request the latest timestamp every time we request data at all,
+  // we can move this to the other useEffect() block.
+  useEffect(() => {
+    axios
+    .get("https://kennypeng15.pythonanywhere.com/latest-timestamp")
+    .then(res => {
+      setLatestDataTimestamp(res.data["latest-timestamp"]);
+    });
+  }, [])
 
   // swag https://stackoverflow.com/questions/57302715/how-to-get-input-field-value-on-button-click-in-react
   const minSolvedPercentRef = useRef(null);
@@ -85,8 +90,6 @@ export default function App() {
   // linear regression for line of best fit swag
   // we try and optimize somewhat here - if state indicates the regression won't be visible, don't even calculate it
   const lineOfBestFitData = regressionVisible ? LinearRegression(dataList) : [];
-
-  // MA stuff
   const movingAverageData = movingAverageVisible ? MovingAverage(dataList, movingAverageWindow) : [];
 
   return (
