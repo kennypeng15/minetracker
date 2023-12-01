@@ -21,20 +21,22 @@ export default function App() {
   const [regressionVisible, setRegressionVisible] = useState(true);
   const [movingAverageVisible, setMovingAverageVisible] = useState(true);
   const [movingAverageWindow, setMovingAverageWindow] = useState(10);
+  const [latestDataTimestamp, setLatestDataTimestamp] = useState("not available yet");
 
   // useEffect here runs EVERY TIME a state var changes
   useEffect(() => {
     // build the query string
     // defaults for the text inputs prevent everything breaking when no input
-    let queryString = "https://kennypeng15.pythonanywhere.com/data?";
-    queryString += ("difficulty=" + difficulty);
-    queryString = queryString + "&solved=" + solvedOnly;
-    queryString = queryString + "&solved_percent_threshold=" + (minSolvedPercent.length > 0 ? minSolvedPercent : "100");
-    queryString = queryString + "&3bv_threshold=" + (minBoard3bv.length > 0 ? minBoard3bv : "0");
-    queryString = queryString + "&efficiency_threshold=" + (minEfficiency.length > 0 ? minEfficiency : "0");
+    let dataQueryUrl = "https://kennypeng15.pythonanywhere.com/data?";
+    dataQueryUrl += ("difficulty=" + difficulty);
+    dataQueryUrl = dataQueryUrl + "&solved=" + solvedOnly;
+    dataQueryUrl = dataQueryUrl + "&solved_percent_threshold=" + (minSolvedPercent.length > 0 ? minSolvedPercent : "100");
+    dataQueryUrl = dataQueryUrl + "&3bv_threshold=" + (minBoard3bv.length > 0 ? minBoard3bv : "0");
+    dataQueryUrl = dataQueryUrl + "&efficiency_threshold=" + (minEfficiency.length > 0 ? minEfficiency : "0");
 
+    // execute the primary query for data
     axios
-      .get(queryString)
+      .get(dataQueryUrl)
       .then(res => {
         const data = res.data;
         data.forEach(d => {
@@ -63,6 +65,13 @@ export default function App() {
         }
         setDataList([]);
       });
+
+      // also get the latest timestamp
+      axios
+        .get("https://kennypeng15.pythonanywhere.com/latest-timestamp")
+        .then(res => {
+          setLatestDataTimestamp(res.data["latest-timestamp"]);
+        });
   }, [difficulty, solvedOnly, minSolvedPercent, minBoard3bv, minEfficiency, useEstimatedTime])
   // see https://react.dev/reference/react/useEffect#examples-dependencies
   // possibly check out https://react.dev/reference/react-dom/components/input --> (optimizing re-rendering on every keystroke)
@@ -88,6 +97,9 @@ export default function App() {
         </p>
         <p>
           MineTracker is an app for tracking and displaying information about my <a href="https://minesweeper.online/">minesweeper.online</a> games.
+        </p>
+        <p>
+          Date of latest available game data: {latestDataTimestamp}
         </p>
       </div>
       <hr/>
@@ -297,7 +309,6 @@ export default function App() {
 
 // backlog
 // componentize what you can, to make this file smaller: https://react.dev/learn/importing-and-exporting-components
-// GH actions: somehow run the npm deploy, with the same commit message, after a push to main
 // dark mode ?
 // qol: toggle to clear all filters?
 // rename to be more consistent (i.e., this-casing vs thisCasing)
@@ -312,3 +323,7 @@ export default function App() {
 // some kind of error handling
 // state vars controlling line of best fit visibility, moving average visibility, moving average window size
 // maybe lump these in with the graph view options selectors
+// endpoint (or add to an endpoint) that returns the date of the most recent data point
+  // display it in the header or something
+// GH actions: somehow run the npm deploy, with the same commit message, after a push to main
+  // not feasible - need access to the local npm modules, which won't happen in GH. oh well!
