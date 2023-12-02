@@ -31,7 +31,7 @@ jobs:
           git config --global user.email github-actions@github.com
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           npm ci
-          npm run deploy -- -m 'GH actions updating pages after commit'
+          npm run deploy
       
 # npm ci is basically npm install, but in automated environments.
 # inspiration was taken from https://gohugo.io/hosting-and-deployment/hosting-on-github/
