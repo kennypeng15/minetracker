@@ -1,0 +1,54 @@
+name: auto-deploy React to GitHub pages
+
+on:
+  # we can run either automatically on push, or manually
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Configure git
+        run: |
+          git config --global user.email 'github-actions@github.com'
+          git config --global user.name 'github-actions'
+          git remote set-url origin https://${{ secrets.PAT }}@github.com/kennypeng15/minetracker.git
+      - name: deploy after commit
+        run: |
+          npm ci
+          npm run deploy -- -m "GH actions updating after commit: ${{ github.event.workflow_run.head_commit.message }}"
+        if: github.event_name == 'push'
+      - name: deploy after manual trigger
+        run: |
+          npm ci
+          npm run deploy -- -m "GH actions updating after manual trigger"
+        if: github.event_name == 'workflow_dispatch'
+      
+# notes: we have different steps for the different triggers, as we want different commit messages for each case.
+# npm ci is basically npm install, but in automated environments.
+# inspiration was taken from https://gohugo.io/hosting-and-deployment/hosting-on-github/
+    
