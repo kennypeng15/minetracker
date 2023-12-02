@@ -32,23 +32,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: Configure git
-        run: |
-          git config --global user.email 'github-actions@github.com'
-          git config --global user.name 'github-actions'
-          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/kennypeng15/minetracker
-      - name: deploy after commit
+      - name: deploy
         run: |
           npm ci
-          npm run deploy -- -m "GH actions updating after commit: ${{ github.event.workflow_run.head_commit.message }}"
+          npm run deploy -- -m "GH actions updating pages after commit"
         if: github.event_name == 'push'
-      - name: deploy after manual trigger
-        run: |
-          npm ci
-          npm run deploy -- -m "GH actions updating after manual trigger"
-        if: github.event_name == 'workflow_dispatch'
       
-# notes: we have different steps for the different triggers, as we want different commit messages for each case.
 # npm ci is basically npm install, but in automated environments.
 # inspiration was taken from https://gohugo.io/hosting-and-deployment/hosting-on-github/
     
