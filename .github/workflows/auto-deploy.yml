@@ -35,4 +35,5 @@ jobs:
       
 # npm ci is basically npm install, but in automated environments.
 # inspiration was taken from https://gohugo.io/hosting-and-deployment/hosting-on-github/
-    
+# note that we had to go to repository settings -> actions -> general -> workflow permissionos
+# and give read and write permissions for this to work.
