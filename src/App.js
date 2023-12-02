@@ -305,6 +305,7 @@ export default function App() {
           The source code for this page, as well as for the MineTracker project in general, can be found on <a href="https://github.com/kennypeng15">my GitHub page.</a>
         </p>
         <p>Made by Kenny Peng, 2023</p>
+        <p>teddy was here!</p>
       </div>
     </>
   );
