@@ -37,13 +37,6 @@ hr {
   grid-auto-flow: column;
 }
 
-.graph-view-options {
-  text-align: left;
-  display: grid;
-  grid-auto-flow: column;
-  padding: 1%;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

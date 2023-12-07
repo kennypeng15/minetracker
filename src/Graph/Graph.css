@@ -1,0 +1,6 @@
+.graph-view-options {
+    text-align: left;
+    display: grid;
+    grid-auto-flow: column;
+    padding: 1%;
+}
