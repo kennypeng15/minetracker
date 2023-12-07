@@ -7,6 +7,8 @@ import CustomTooltip from "./CustomTooltip";
 import StatDisplay from "./StatDisplay";
 import LinearRegression from "./LinearRegression";
 import MovingAverage from "./MovingAverage";
+import Header from "./Header";
+import Footer from "./Footer";
 import "./App.css"
 
 export default function App() {
@@ -98,18 +100,13 @@ export default function App() {
 
   return (
     <>
-      <div className="header">
-        <p>
-          <h1>Welcome to MineTracker!</h1>
-        </p>
-        <p>
-          MineTracker is an app for tracking and displaying information about my <a href="https://minesweeper.online/">minesweeper.online</a> games.
-        </p>
+      <Header/>
+      <hr/>
+      <div className="latest-timestamp">
         <p>
           Date of latest available game data: {latestDataTimestamp}
         </p>
       </div>
-      <hr/>
       <div className="filter-selector">
         <div className="filter">
           Difficulty:
@@ -283,9 +280,7 @@ export default function App() {
           </p>
         </div>}
       </div>
-
       <hr />
-
       <div className="multi-stat-container">
         <div>
           {dataList.some(d => d["board-solved"]) && <StatDisplay dataList={dataList.filter(d => d["board-solved"])} />}
@@ -297,24 +292,8 @@ export default function App() {
           {!solvedOnly && dataList.some(d => !d["board-solved"]) && <StatDisplay dataList={dataList} />}
         </div>
       </div>
-
       <hr/>
-
-      <div className="footer">
-        <p>
-          This page is built with the <a href="https://recharts.org/en-US/">Recharts</a> library on top of React.
-          It's hosted on GitHub Pages and deployed with GitHub Actions and the <a href="https://github.com/gitname/react-gh-pages">react-gh-pages</a> library.
-        </p>
-        <p>
-          The source code for this page, as well as for the MineTracker project in general, can be found on <a href="https://github.com/kennypeng15">my GitHub page.</a>
-        </p>
-        <p>
-          Made by Kenny Peng, 2023
-        </p>
-        <p>
-          Teddy was here! :3
-        </p>
-      </div>
+      <Footer/>
     </>
   );
 }
@@ -327,3 +306,5 @@ export default function App() {
 // make it look pretty, if you want
 // routing - have a homepage with links to a writeup and the graph, ...
 // can probably use react-router-dom or whatever idk need to look it up more
+
+// componentization sketch:
