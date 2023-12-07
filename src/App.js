@@ -10,7 +10,6 @@ import MovingAverage from "./MovingAverage";
 import "./App.css"
 
 export default function App() {
-  // state vars
   const [dataList, setDataList] = useState([]);
   const [difficulty, setDifficulty] = useState("expert");
   const [solvedOnly, setSolvedOnly] = useState(true);
@@ -25,7 +24,7 @@ export default function App() {
   const [latestDataTimestamp, setLatestDataTimestamp] = useState("not available yet");
 
   // retry axios requests if they fail
-  // helpful to avoid noot having any data on first page load.
+  // helpful to avoid not having any data on first page load.
   axiosRetry(axios, { retries: 3 });
 
   // use useEffect to dynamically construct a query string and obtain
@@ -40,44 +39,44 @@ export default function App() {
     dataQueryUrl = dataQueryUrl + "&3bv_threshold=" + (minBoard3bv.length > 0 ? minBoard3bv : "0");
     dataQueryUrl = dataQueryUrl + "&efficiency_threshold=" + (minEfficiency.length > 0 ? minEfficiency : "0");
 
-    // execute the primary query for data
-    axios
-      .get(dataQueryUrl)
-      .then(res => {
-        const data = res.data;
-        data.forEach(d => {
-          d.epochValue = moment(d["game-timestamp"]).valueOf(); // date -> epoch
-          // use "effectiveTime" since we can technically have "Time" or "Estimated Time"
-          d.effectiveTime = d["board-solved"]
-            ? d["elapsed-time"]
-            : useEstimatedTime
-              ? d["estimated-time"]
-              : d["elapsed-time"];
-        });
-        setDataList(data);
-      })
-      .catch(err => {
-        if (err.response) {
-          // non-2xx status code
-          alert("Request for data failed - status code did not indicate success: " + err.response.data + ", " + err.response.status);
-        }
-        else if (err.request) {
-          // request made, no response received
-          alert("Request for data failed - no response was received: " + err.request)
-        }
-        else {
-          // something else went wrong
-          alert("Request for data failed: " + err.message)
-        }
-        setDataList([]);
+    // define an async function for data retrieval here so it plays nice with useEffect()
+    // [see https://stackoverflow.com/questions/53332321/react-hook-warnings-for-async-function-in-useeffect-useeffect-function-must-ret]
+    // note that we explicitly await for the first request to finish before proceeding with the second.
+    const getAndSetGameDataAndTimestamp = async () => {
+      const gameData = (await axios.get(dataQueryUrl)).data;
+      gameData.forEach(d => {
+        d.epochValue = moment(d["game-timestamp"]).valueOf(); // date -> epoch
+        // use "effectiveTime" since we can technically have "Time" or "Estimated Time"
+        d.effectiveTime = d["board-solved"]
+          ? d["elapsed-time"]
+          : useEstimatedTime
+            ? d["estimated-time"]
+            : d["elapsed-time"];
       });
+      setDataList(gameData);
 
-    // get the date of the latest available game data
-    axios
-    .get("https://kennypeng15.pythonanywhere.com/latest-timestamp")
-    .then(res => {
-      setLatestDataTimestamp(res.data["latest-timestamp"]);
-    });
+      const timestampData = (await axios.get("https://kennypeng15.pythonanywhere.com/latest-timestamp")).data;
+      setLatestDataTimestamp(timestampData["latest-timestamp"]);
+    }
+
+    try {
+      getAndSetGameDataAndTimestamp();
+    }
+    catch (err) {
+      if (err.response) {
+        // non-2xx status code
+        alert("Request for data failed - status code did not indicate success: " + err.response.data + ", " + err.response.status);
+      }
+      else if (err.request) {
+        // request made, no response received
+        alert("Request for data failed - no response was received: " + err.request)
+      }
+      else {
+        // something else went wrong
+        alert("Request for data failed: " + err.message)
+      }
+      setDataList([]);
+    }
   }, [difficulty, solvedOnly, minSolvedPercent, minBoard3bv, minEfficiency, useEstimatedTime])
   // see https://react.dev/reference/react/useEffect#examples-dependencies
   
@@ -92,7 +91,7 @@ export default function App() {
   const minEfficiencyRef = useRef(null);
   const movingAverageWindowRef = useRef(null);
 
-  // linear regression for line of best fit swag
+  // calculate linear regression for line of best fit
   // we try and optimize somewhat here - if state indicates the regression won't be visible, don't even calculate it
   const lineOfBestFitData = regressionVisible ? LinearRegression(dataList) : [];
   const movingAverageData = movingAverageVisible ? MovingAverage(dataList, movingAverageWindow) : [];
@@ -328,15 +327,3 @@ export default function App() {
 // make it look pretty, if you want
 // routing - have a homepage with links to a writeup and the graph, ...
 // can probably use react-router-dom or whatever idk need to look it up more
-
-// done: 
-// input validation? for text entries
-// clicking on (won) game takes you to the game
-// composedChart tooltips are broken, so just use scatter with some funky business
-// some kind of error handling
-// state vars controlling line of best fit visibility, moving average visibility, moving average window size
-// maybe lump these in with the graph view options selectors
-// endpoint (or add to an endpoint) that returns the date of the most recent data point
-  // display it in the header or something
-// GH actions: somehow run the npm deploy, with the same commit message, after a push to main
-  // done!
