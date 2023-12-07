@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import axiosRetry from "axios-retry";
 import { Scatter, Legend, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart } from 'recharts';
 import moment from 'moment'
 import CustomTooltip from "./CustomTooltip";
@@ -22,6 +23,10 @@ export default function App() {
   const [movingAverageVisible, setMovingAverageVisible] = useState(true);
   const [movingAverageWindow, setMovingAverageWindow] = useState(10);
   const [latestDataTimestamp, setLatestDataTimestamp] = useState("not available yet");
+
+  // retry axios requests if they fail
+  // helpful to avoid noot having any data on first page load.
+  axiosRetry(axios, { retries: 3 });
 
   // use useEffect to dynamically construct a query string and obtain
   // relevant data any time a specified state variable changes
@@ -66,20 +71,20 @@ export default function App() {
         }
         setDataList([]);
       });
-  }, [difficulty, solvedOnly, minSolvedPercent, minBoard3bv, minEfficiency, useEstimatedTime])
-  // see https://react.dev/reference/react/useEffect#examples-dependencies
 
-  // this useEffect only controls the latest timestamp 
-  // we only want this to render once, sodon't include any parameters in the second argument.
-  // if, in the future, we want to request the latest timestamp every time we request data at all,
-  // we can move this to the other useEffect() block.
-  useEffect(() => {
+    // get the date of the latest available game data
     axios
     .get("https://kennypeng15.pythonanywhere.com/latest-timestamp")
     .then(res => {
       setLatestDataTimestamp(res.data["latest-timestamp"]);
     });
-  }, [])
+  }, [difficulty, solvedOnly, minSolvedPercent, minBoard3bv, minEfficiency, useEstimatedTime])
+  // see https://react.dev/reference/react/useEffect#examples-dependencies
+  
+  // TODO: maybe could have some kind of state to indicate if something is loading.
+    // loading is initially true, then false after query executes, can have a loading spinner, ...
+  // can maybe have a const that's something like "is there any data"
+    // if there's none, don't show the empty graph or the empty stat container or anything - just show the filters
 
   // swag https://stackoverflow.com/questions/57302715/how-to-get-input-field-value-on-button-click-in-react
   const minSolvedPercentRef = useRef(null);
@@ -334,4 +339,4 @@ export default function App() {
 // endpoint (or add to an endpoint) that returns the date of the most recent data point
   // display it in the header or something
 // GH actions: somehow run the npm deploy, with the same commit message, after a push to main
-  // not feasible - need access to the local npm modules, which won't happen in GH. oh well!
+  // done!
