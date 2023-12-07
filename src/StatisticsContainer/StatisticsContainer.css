@@ -1,0 +1,7 @@
+.statistics-container {
+    text-align: left;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    padding: 1%;
+}

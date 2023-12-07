@@ -4,11 +4,11 @@ import axiosRetry from "axios-retry";
 import { Scatter, Legend, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart } from 'recharts';
 import moment from 'moment'
 import CustomTooltip from "./CustomTooltip";
-import StatDisplay from "./StatDisplay";
+import StatisticsContainer from "./StatisticsContainer/StatisticsContainer";
 import LinearRegression from "./LinearRegression";
 import MovingAverage from "./MovingAverage";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "./Header/Header";
+import Footer from "./Footer/Footer";
 import "./App.css"
 
 export default function App() {
@@ -280,18 +280,8 @@ export default function App() {
           </p>
         </div>}
       </div>
-      <hr />
-      <div className="multi-stat-container">
-        <div>
-          {dataList.some(d => d["board-solved"]) && <StatDisplay dataList={dataList.filter(d => d["board-solved"])} />}
-        </div>
-        <div>
-          {!solvedOnly && dataList.some(d => !d["board-solved"]) && <StatDisplay dataList={dataList.filter(d => !d["board-solved"])} />}
-        </div>
-        <div>
-          {!solvedOnly && dataList.some(d => !d["board-solved"]) && <StatDisplay dataList={dataList} />}
-        </div>
-      </div>
+      <hr/>
+      <StatisticsContainer dataList={dataList}/>
       <hr/>
       <Footer/>
     </>

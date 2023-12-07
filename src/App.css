@@ -44,14 +44,6 @@ hr {
   padding: 1%;
 }
 
-.multi-stat-container{
-  text-align: left;
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: center;
-  padding: 1%;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
