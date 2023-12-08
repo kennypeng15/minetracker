@@ -7,10 +7,27 @@ const CustomTooltip = props => {
     return null;
   }
 
-  // figure something out to skip
-  // can possibly do a more complex check, but this works for now
+  // if the "board-3bv" key isn't present, that means it's a generated data point
+  // (i.e., from moving average or linear regression calculations).
+  // generate a separate custom tooltip for those.
   if (!("board-3bv" in props.payload[0].payload)) {
-    return null;
+    // these are all floating point calcs with ugly numbers, so we clean them up with .toFixed(3)
+    let newPayload = [
+      {
+        name: "Time",
+        value: props.payload[0].payload["effectiveTime"].toFixed(3)
+      },
+      {
+        name: "Efficiency",
+        value: props.payload[0].payload["efficiency"].toFixed(3)
+      },
+      {
+        name: "3BV per Second",
+        value: props.payload[0].payload["game-3bvps"].toFixed(3)
+      }
+    ]
+
+    return <DefaultTooltipContent payload={newPayload} />;
   }
 
   // mutating props directly is against react's conventions
@@ -24,7 +41,7 @@ const CustomTooltip = props => {
       value: props.payload[0].payload["board-3bv"]
     },
     {
-      name: "3BV per Second",
+      name: "3BV per second",
       value: props.payload[0].payload["game-3bvps"]
     },
     {
@@ -38,11 +55,11 @@ const CustomTooltip = props => {
       value: props.payload[0].payload["total-clicks"] + " (" + props.payload[0].payload["useful-clicks"] + ", " + props.payload[0].payload["wasted-clicks"] + ")"
     },
     {
-      name: "Game Link",
+      name: "Game link",
       value: "https://minesweeper.online/game/" + props.payload[0].payload["game-id"]
     },
     {
-      name: "Played At",
+      name: "Played at",
       value: props.payload[0].payload["game-timestamp"]
     }
   ];
@@ -55,12 +72,12 @@ const CustomTooltip = props => {
       unit: "s"
     })
     : newPayload.unshift({
-      name: "Estimated Time",
-      value: props.payload[0].payload["estimated-time"],
-      unit: "s"
-    },
+        name: "Estimated time",
+        value: props.payload[0].payload["estimated-time"],
+        unit: "s"
+      },
       {
-        name: "Elapsed Time",
+        name: "Elapsed time",
         value: props.payload[0].payload["elapsed-time"],
         unit: "s"
       },
@@ -75,7 +92,7 @@ const CustomTooltip = props => {
       });
 
   // we render the default, but with our overridden payload
-  return <DefaultTooltipContent {...props} payload={newPayload} />;
+  return <DefaultTooltipContent payload={newPayload} />;
 };
 
 export default CustomTooltip;

@@ -21,7 +21,7 @@ export default function MovingAverage(dataList, windowSize) {
         {
             epochValue: dataList[i - 1]["epochValue"],
             effectiveTime: currentTimeWindow / windowSize,
-            Efficiency: currentEffWindow / windowSize,
+            efficiency: currentEffWindow / windowSize,
             "game-3bvps": current3bvpsWindow / windowSize
         }
     )

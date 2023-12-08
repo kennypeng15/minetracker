@@ -198,11 +198,9 @@ export default function App() {
 }
 
 // backlog
-// componentize what you can, to make this file smaller: https://react.dev/learn/importing-and-exporting-components
 // dark mode ?
 // qol: toggle to clear all filters?
 // rename to be more consistent (i.e., this-casing vs thisCasing)
 // make it look pretty, if you want
 // routing - have a homepage with links to a writeup and the graph, ...
 // can probably use react-router-dom or whatever idk need to look it up more
-// some kind of disclaimer that, when non-solved games are included, estimated time (linear extrapolation...) is used

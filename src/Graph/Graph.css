@@ -1,3 +1,9 @@
+.solved-only-disclaimer {
+    text-align: center;
+    font-size: smaller;
+    padding-top: 0%;
+}
+
 .graph-view-options {
     text-align: left;
     display: grid;
