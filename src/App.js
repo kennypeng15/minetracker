@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import moment from 'moment'
+import ClipLoader from "react-spinners/ClipLoader";
 import Header from "./Header/Header";
 import Graph from "./Graph/Graph";
 import StatisticsContainer from "./StatisticsContainer/StatisticsContainer";
@@ -16,6 +17,7 @@ export default function App() {
   const [minBoard3bv, setMinBoard3bv] = useState("0");
   const [minEfficiency, setMinEfficiency] = useState("0");
   const [latestDataTimestamp, setLatestDataTimestamp] = useState("not available yet");
+  const [loading, setLoading] = useState(true);
 
   // retry axios requests if they fail
   // helpful to avoid not having any data on first page load.
@@ -37,6 +39,8 @@ export default function App() {
     // [see https://stackoverflow.com/questions/53332321/react-hook-warnings-for-async-function-in-useeffect-useeffect-function-must-ret]
     // note that we explicitly await for the first request to finish before proceeding with the second.
     const getAndSetGameDataAndTimestamp = async () => {
+      // if we want the loading spinner only on first load, comment out the below.
+      // setLoading(true);
       const gameData = (await axios.get(dataQueryUrl)).data;
       gameData.forEach(d => {
         d.epochValue = moment(d["game-timestamp"]).valueOf(); // date -> epoch
@@ -49,6 +53,8 @@ export default function App() {
 
       const timestampData = (await axios.get("https://kennypeng15.pythonanywhere.com/latest-timestamp")).data;
       setLatestDataTimestamp(timestampData["latest-timestamp"]);
+      // this could be moved after the first set as well, if we want it displayed for slightly less time.
+      setLoading(false);
     }
 
     try {
@@ -168,9 +174,18 @@ export default function App() {
           </p>
         </div>
       </div>
-      <Graph dataList={dataList}/>
-      <hr/>
-      <StatisticsContainer dataList={dataList}/>
+      {loading && <div className="spinner">
+        <ClipLoader
+          size={100}
+          color={"#4287f5"}
+          loading={loading}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>}
+      {!loading && <Graph dataList={dataList}/>}
+      {!loading && <hr/>}
+      {!loading && <StatisticsContainer dataList={dataList}/>}
       <hr/>
       <Footer/>
     </>
@@ -186,7 +201,5 @@ export default function App() {
 // routing - have a homepage with links to a writeup and the graph, ...
 // can probably use react-router-dom or whatever idk need to look it up more
 // some kind of disclaimer that, when non-solved games are included, estimated time (linear extrapolation...) is used
-// TODO: maybe could have some kind of state to indicate if something is loading.
-    // loading is initially true, then false after query executes, can have a loading spinner, ...
   // can maybe have a const that's something like "is there any data"
     // if there's none, don't show the empty graph or the empty stat container or anything - just show the filters
