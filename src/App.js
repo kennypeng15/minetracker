@@ -85,114 +85,116 @@ export default function App() {
 
   return (
     <>
-      <Header/>
-      <hr/>
-      <div className="latest-timestamp">
-        <p>
-          Date of latest available game data: {latestDataTimestamp}
-        </p>
-      </div>
-      <div className="filter-selector">
-        <div className="filter">
-          Difficulty:
+      <div className="app-wrapper">
+        <Header/>
+        <hr/>
+        <div className="latest-timestamp">
           <p>
-            <label>
-              <input type="radio" name="difficultySelectorRadio" defaultChecked={true} onChange={() => setDifficulty("expert")} /> Expert
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="radio" name="difficultySelectorRadio" onChange={() => setDifficulty("intermediate")} /> Intermediate
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="radio" name="difficultySelectorRadio" onChange={() => setDifficulty("beginner")} /> Beginner
-            </label>
+            Date of latest available game data: {latestDataTimestamp}
           </p>
         </div>
-        <div className="filter">
-          Solved only?
-          <p>
-            <label>
-              <input type="radio" name="solvedOnlyRadio" value={true} defaultChecked={true} onChange={() => setSolvedOnly(true)} /> Yes
-            </label>
-          </p>
-          <p>
-            <label>
-              <input type="radio" name="solvedOnlyRadio" value={false} onChange={() => setSolvedOnly(false)} /> No
-            </label>
-          </p>
+        <div className="filter-selector">
+          <div className="filter">
+            Difficulty:
+            <p>
+              <label>
+                <input type="radio" name="difficultySelectorRadio" defaultChecked={true} onChange={() => setDifficulty("expert")} /> Expert
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="radio" name="difficultySelectorRadio" onChange={() => setDifficulty("intermediate")} /> Intermediate
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="radio" name="difficultySelectorRadio" onChange={() => setDifficulty("beginner")} /> Beginner
+              </label>
+            </p>
+          </div>
+          <div className="filter">
+            Solved only?
+            <p>
+              <label>
+                <input type="radio" name="solvedOnlyRadio" value={true} defaultChecked={true} onChange={() => setSolvedOnly(true)} /> Yes
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="radio" name="solvedOnlyRadio" value={false} onChange={() => setSolvedOnly(false)} /> No
+              </label>
+            </p>
+          </div>
+          {!solvedOnly && <div className="filter">
+            Min. solved %: (current: {minSolvedPercent}%)
+            <p>
+              <input name="minSolvedPercentInput" defaultValue={minSolvedPercent} ref={minSolvedPercentRef} />
+              <button onClick={() => {
+                if (parseInt(minSolvedPercentRef.current.value) && parseInt(minSolvedPercentRef.current.value) >= 50) {
+                  setMinSolvedPercent(minSolvedPercentRef.current.value.trim())
+                }
+                else {
+                  alert("Invalid filter input: solved percentage must be a number greater than or equal to 50.")
+                }
+              }}>
+                Go!
+              </button>
+            </p>
+          </div>}
+          <div className="filter">
+            Min. board 3BV: (current: {minBoard3bv})
+            <p>
+              <input name="minBoard3bvInput" defaultValue="0" ref={minBoard3bvRef} />
+              <button onClick={() => {
+                // parseInt is falsey for 0, so we need a separate check
+                if (minBoard3bvRef.current.value.trim() === "0" || (parseInt(minBoard3bvRef.current.value) && parseInt(minBoard3bvRef.current.value) >= 0)) {
+                  setMinBoard3bv(minBoard3bvRef.current.value.trim())
+                }
+                else {
+                  alert("Invalid filter input: minimum board 3bv must be a number greater than or equal to 0.")
+                }
+              }}>
+                Go!
+              </button>
+            </p>
+          </div>
+          <div className="filter">
+            Min. efficiency: (current: {minEfficiency})
+            <p>
+              <input name="minEfficiencyInput" defaultValue="0" ref={minEfficiencyRef} />
+              <button onClick={() => {
+                if (minEfficiencyRef.current.value.trim() === "0" || (parseInt(minEfficiencyRef.current.value) && parseInt(minEfficiencyRef.current.value) >= 0)) {
+                  setMinEfficiency(minEfficiencyRef.current.value.trim())
+                }
+                else {
+                  alert("Invalid filter input: minimum efficiency must be a number greater than or equal to 0.")
+                }
+              }}>
+                Go!
+              </button>
+            </p>
+          </div>
         </div>
-        {!solvedOnly && <div className="filter">
-          Min. solved %: (current: {minSolvedPercent}%)
-          <p>
-            <input name="minSolvedPercentInput" defaultValue={minSolvedPercent} ref={minSolvedPercentRef} />
-            <button onClick={() => {
-              if (parseInt(minSolvedPercentRef.current.value) && parseInt(minSolvedPercentRef.current.value) >= 50) {
-                setMinSolvedPercent(minSolvedPercentRef.current.value.trim())
-              }
-              else {
-                alert("Invalid filter input: solved percentage must be a number greater than or equal to 50.")
-              }
-            }}>
-              Go!
-            </button>
-          </p>
+        {loading && <div className="spinner">
+          <ClipLoader
+            size={100}
+            color={"#4287f5"}
+            loading={loading}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
         </div>}
-        <div className="filter">
-          Min. board 3BV: (current: {minBoard3bv})
-          <p>
-            <input name="minBoard3bvInput" defaultValue="0" ref={minBoard3bvRef} />
-            <button onClick={() => {
-              // parseInt is falsey for 0, so we need a separate check
-              if (minBoard3bvRef.current.value.trim() === "0" || (parseInt(minBoard3bvRef.current.value) && parseInt(minBoard3bvRef.current.value) >= 0)) {
-                setMinBoard3bv(minBoard3bvRef.current.value.trim())
-              }
-              else {
-                alert("Invalid filter input: minimum board 3bv must be a number greater than or equal to 0.")
-              }
-            }}>
-              Go!
-            </button>
-          </p>
-        </div>
-        <div className="filter">
-          Min. efficiency: (current: {minEfficiency})
-          <p>
-            <input name="minEfficiencyInput" defaultValue="0" ref={minEfficiencyRef} />
-            <button onClick={() => {
-              if (minEfficiencyRef.current.value.trim() === "0" || (parseInt(minEfficiencyRef.current.value) && parseInt(minEfficiencyRef.current.value) >= 0)) {
-                setMinEfficiency(minEfficiencyRef.current.value.trim())
-              }
-              else {
-                alert("Invalid filter input: minimum efficiency must be a number greater than or equal to 0.")
-              }
-            }}>
-              Go!
-            </button>
-          </p>
-        </div>
+        {!loading && dataList.length === 0 && <div className="no-data-message">
+          <h2>
+            No data available for the selected filters.
+          </h2>
+        </div>}
+        {!loading && dataList.length > 0 && <Graph dataList={dataList}/>}
+        {!loading && dataList.length > 0 && <hr/>}
+        {!loading && dataList.length > 0 && <StatisticsContainer dataList={dataList}/>}
+        <hr/>
+        <Footer/>
       </div>
-      {loading && <div className="spinner">
-        <ClipLoader
-          size={100}
-          color={"#4287f5"}
-          loading={loading}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </div>}
-      {!loading && dataList.length === 0 && <div className="no-data-message">
-        <h2>
-          No data available for the selected filters.
-        </h2>
-      </div>}
-      {!loading && dataList.length > 0 && <Graph dataList={dataList}/>}
-      {!loading && dataList.length > 0 && <hr/>}
-      {!loading && dataList.length > 0 && <StatisticsContainer dataList={dataList}/>}
-      <hr/>
-      <Footer/>
     </>
   );
 }

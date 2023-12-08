@@ -2,3 +2,9 @@
     text-align: center;
     font-size: x-small;
 }
+
+p {
+    margin: 0;
+    border: 0;
+    padding-bottom: 0.5%;
+}
