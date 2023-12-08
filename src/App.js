@@ -183,9 +183,14 @@ export default function App() {
           data-testid="loader"
         />
       </div>}
-      {!loading && <Graph dataList={dataList}/>}
-      {!loading && <hr/>}
-      {!loading && <StatisticsContainer dataList={dataList}/>}
+      {!loading && dataList.length === 0 && <div className="no-data-message">
+        <h2>
+          No data available for the selected filters.
+        </h2>
+      </div>}
+      {!loading && dataList.length > 0 && <Graph dataList={dataList}/>}
+      {!loading && dataList.length > 0 && <hr/>}
+      {!loading && dataList.length > 0 && <StatisticsContainer dataList={dataList}/>}
       <hr/>
       <Footer/>
     </>
@@ -201,5 +206,3 @@ export default function App() {
 // routing - have a homepage with links to a writeup and the graph, ...
 // can probably use react-router-dom or whatever idk need to look it up more
 // some kind of disclaimer that, when non-solved games are included, estimated time (linear extrapolation...) is used
-  // can maybe have a const that's something like "is there any data"
-    // if there's none, don't show the empty graph or the empty stat container or anything - just show the filters
