@@ -6,7 +6,7 @@ import LinearRegression from "./LinearRegression";
 import MovingAverage from "./MovingAverage";
 import "./Graph.css";
 
-export default function Graph({dataList}) {
+export default function Graph({ dataList }) {
     const [graphYAxis, setGraphYAxis] = useState("time")
     const [regressionVisible, setRegressionVisible] = useState(true);
     const [movingAverageVisible, setMovingAverageVisible] = useState(true);
@@ -25,61 +25,61 @@ export default function Graph({dataList}) {
     // to be available, but we don't actually want to see the points on the graph
     // for sake of visual clarity.
     // the key here is to set fillOpacity = 0 --> transparently draws a circl
-    function RenderDot({cx, cy}) {
-        return <Dot cx={cx} cy={cy} r={3} fill={"#ffffff"} fillOpacity={0}/>
+    function RenderDot({ cx, cy }) {
+        return <Dot cx={cx} cy={cy} r={3} fill={"#ffffff"} fillOpacity={0} />
     }
 
     return (
         <>
             <ResponsiveContainer width="98%" height={700}>
                 <ScatterChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-                <CartesianGrid />
-                {graphYAxis === "time" && <YAxis type="number" dataKey="effectiveTime" name="Time" unit="s" domain={['auto', 'auto']} />}
-                {graphYAxis === "3bvps" && <YAxis type="number" dataKey="game-3bvps" name="3BV p/ second" domain={['auto', 'auto']} />}
-                {graphYAxis === "efficiency" && <YAxis type="number" dataKey="efficiency" name="Efficiency" domain={['auto', 'auto']} />}
-                <XAxis 
-                    type="number"
-                    dataKey="epochValue"
-                    name="Unix Date"
-                    tickFormatter={(unixTime) => moment(unixTime).format('MM/DD/YY')}
-                    interval={0} domain={['auto', 'auto']}
-                    tickCount={8}
-                    padding={{ left: 35, right: 35 }}
-                />
-                <Scatter
-                    name="Line of Best Fit"
-                    data={lineOfBestFitData}
-                    fill="#c4c3c3"
-                    shape={RenderDot}
-                    line={{ strokeWidth: 1.5 }}
-                    hide={!regressionVisible}
-                    legendType={regressionVisible ? "circle" : "none"}
-                />
-                <Scatter
-                    name="Minesweeper Games (Wins)"
-                    data={dataList.filter(d => d["board-solved"])}
-                    fill="#1ba843"
-                    shape={"circle"}
-                    onClick={d => window.open("https://minesweeper.online/game/" + d["game-id"], "_blank")}
-                />
-                <Scatter
-                    name="Minesweeper Games (Losses)"
-                    data={dataList.filter(d => !d["board-solved"])}
-                    fill="#eb904b"
-                    shape={"cross"}
-                    hide={solvedOnly}
-                    legendType={solvedOnly ? "none" : "circle"}
-                />
-                <Scatter
-                    name={"Moving Average (" + movingAverageWindow + ")"}
-                    data={movingAverageData}
-                    fill="#bb4beb"
-                    shape={RenderDot}
-                    line={{ strokeWidth: 1 }}
-                    hide={!movingAverageVisible}
-                    legendType={movingAverageVisible ? "circle" : "none"} />
-                <Tooltip cursor={{ strokeDasharray: '3 3' }} content={CustomTooltip} />
-                {<Legend />}
+                    <CartesianGrid />
+                    {graphYAxis === "time" && <YAxis type="number" dataKey="effectiveTime" name="Time" unit="s" domain={['auto', 'auto']} />}
+                    {graphYAxis === "3bvps" && <YAxis type="number" dataKey="game-3bvps" name="3BV p/ second" domain={['auto', 'auto']} />}
+                    {graphYAxis === "efficiency" && <YAxis type="number" dataKey="efficiency" name="Efficiency" domain={['auto', 'auto']} />}
+                    <XAxis
+                        type="number"
+                        dataKey="epochValue"
+                        name="Unix Date"
+                        tickFormatter={(unixTime) => moment(unixTime).format('MM/DD/YY')}
+                        interval={0} domain={['auto', 'auto']}
+                        tickCount={8}
+                        padding={{ left: 35, right: 35 }}
+                    />
+                    <Scatter
+                        name="Line of Best Fit"
+                        data={lineOfBestFitData}
+                        fill="#46e7f2"
+                        shape={RenderDot}
+                        line={{ strokeWidth: 1.5 }}
+                        hide={!regressionVisible}
+                        legendType={regressionVisible ? "circle" : "none"}
+                    />
+                    <Scatter
+                        name="Minesweeper Games (Wins)"
+                        data={dataList.filter(d => d["board-solved"])}
+                        fill="#1ba843"
+                        shape={"circle"}
+                        onClick={d => window.open("https://minesweeper.online/game/" + d["game-id"], "_blank")}
+                    />
+                    <Scatter
+                        name="Minesweeper Games (Losses)"
+                        data={dataList.filter(d => !d["board-solved"])}
+                        fill="#faa141"
+                        shape={"cross"}
+                        hide={solvedOnly}
+                        legendType={solvedOnly ? "none" : "circle"}
+                    />
+                    <Scatter
+                        name={"Moving Average (" + movingAverageWindow + ")"}
+                        data={movingAverageData}
+                        fill="#f244ef"
+                        shape={RenderDot}
+                        line={{ strokeWidth: 1 }}
+                        hide={!movingAverageVisible}
+                        legendType={movingAverageVisible ? "circle" : "none"} />
+                    <Tooltip cursor={{ strokeDasharray: '3 3' }} content={CustomTooltip} />
+                    {<Legend />}
                 </ScatterChart>
             </ResponsiveContainer>
             <div className="graph-view-options">
@@ -133,20 +133,17 @@ export default function Graph({dataList}) {
                         <input name="textInput4" defaultValue={movingAverageWindow} ref={movingAverageWindowRef} />
                         <button onClick={() => {
                             if (parseInt(movingAverageWindowRef.current.value) && parseInt(movingAverageWindowRef.current.value) >= 1) {
-                            setMovingAverageWindow(parseInt(movingAverageWindowRef.current.value.trim()))
+                                setMovingAverageWindow(parseInt(movingAverageWindowRef.current.value.trim()))
                             }
                             else {
                                 alert("Invalid input: moving average window must be a number greater than or equal to 1.")
                             }
-                            }}>
+                        }}>
                             Go!
                         </button>
                     </p>
                 </div>}
             </div>
-            {!solvedOnly && <div className="solved-only-disclaimer">
-                Note: for unsolved games, the estimated time is used for all displays and calculations.
-            </div>}
         </>
     )
 }

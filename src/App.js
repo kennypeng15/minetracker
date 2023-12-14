@@ -86,13 +86,13 @@ export default function App() {
   return (
     <>
       <div className="app-wrapper">
-        <Header/>
-        <hr/>
+        <Header />
         <div className="latest-timestamp">
           <p>
             Date of latest available game data: {latestDataTimestamp}
           </p>
         </div>
+        <hr />
         <div className="filter-selector">
           <div className="filter">
             Difficulty:
@@ -189,11 +189,13 @@ export default function App() {
             No data available for the selected filters.
           </h2>
         </div>}
-        {!loading && dataList.length > 0 && <Graph dataList={dataList}/>}
-        {!loading && dataList.length > 0 && <hr/>}
-        {!loading && dataList.length > 0 && <StatisticsContainer dataList={dataList}/>}
-        <hr/>
-        <Footer/>
+        {!loading && dataList.length > 0 && <Graph dataList={dataList} />}
+        {!loading && dataList.length > 0 && <StatisticsContainer dataList={dataList} />}
+        {!solvedOnly && <div className="solved-only-disclaimer">
+          Note: for unsolved games, the estimated time is used for all displays and calculations.
+        </div>}
+        <hr />
+        <Footer />
       </div>
     </>
   );

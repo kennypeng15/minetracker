@@ -28,28 +28,28 @@ export default function StatDisplay({ dataList }) {
       </div>
       <div className="stat-grid-container">
         <div>
-          Average time: {avgTime} seconds
+          Avg. time: {avgTime} s
         </div>
         <div>
-          Best time: {bestTime} seconds
+          Best time: {bestTime} s
         </div>
         <div>
-          Average 3BV/s: {avg3bvps}
+          Avg. 3BV/s: {avg3bvps}
         </div>
         <div>
           Best 3BV/s: {best3bvps}
         </div>
         <div>
-          Average efficiency: {avgEff}%
+          Avg. efficiency: {avgEff}%
         </div>
         <div>
           Best efficiency: {bestEff}%
         </div>
         <div>
-          Average number of clicks: {avgClicks}
+          Avg. # clicks: {avgClicks}
         </div>
         <div>
-          Average board 3BV: {avgBoard3bv}
+          Avg. board 3BV: {avgBoard3bv}
         </div>
       </div>
     </>

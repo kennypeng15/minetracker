@@ -1,15 +1,11 @@
-.solved-only-disclaimer {
-    text-align: center;
-    font-size: smaller;
-    padding-top: 1%;
-}
-
 .graph-view-options {
     text-align: left;
+    font-size: medium;
     display: grid;
     grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
     padding-bottom: 0%;
     padding-top: 2%;
     padding-left: 1%;
     padding-right: 1%;
-}
+  }

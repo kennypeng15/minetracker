@@ -6,10 +6,10 @@
 }
 
 .app-wrapper {
-  background-color: rgb(241, 241, 248);
+  background-color: rgb(241, 244, 248);
   margin: 0;
   padding: 0;
-  min-height: 100%;
+  min-height: 100vh;
 }
 
 hr {
@@ -30,10 +30,11 @@ hr {
 
 .filter-selector {
   text-align: center;
-  font-size: large;
+  font-size: medium;
   padding: 1%;
   display: grid;
   grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
 }
 
 .spinner {
@@ -48,4 +49,10 @@ hr {
 
 .no-data-message {
   text-align: center;
+}
+
+.solved-only-disclaimer {
+  text-align: center;
+  font-size: smaller;
+  padding-top: 1%;
 }
