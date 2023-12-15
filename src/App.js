@@ -204,7 +204,6 @@ export default function App() {
           </h2>
         </div>}
         {!loading && dataList.length > 0 && <Graph dataList={dataList} />}
-        {!loading && dataList.length > 0 && <hr />}
         {!loading && dataList.length > 0 && <StatisticsContainer dataList={dataList} />}
         {!solvedOnly && <div className="solved-only-disclaimer">
           Note: for unsolved games, the estimated time is used for all displays and calculations.
@@ -220,6 +219,6 @@ export default function App() {
 // dark mode ?
 // qol: toggle to clear all filters?
 // rename to be more consistent (i.e., this-casing vs thisCasing)
-// make it look pretty, if you want
+// consolidate shared css into a common css file ?
 // routing - have a homepage with links to a writeup and the graph, ...
 // can probably use react-router-dom or whatever idk need to look it up more

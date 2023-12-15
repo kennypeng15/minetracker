@@ -29,10 +29,16 @@ hr {
   text-align: left;
   padding: 1%;
   margin: 0.5%;
+  border: 2px solid rgb(228, 230, 236);
+  border-radius: 15px;
 }
 
 .filter-title {
   text-align: center;
+  background-color: rgb(228, 230, 236);
+  border-radius: 15px;
+  margin: 0.5%;
+  padding: 1%;
 }
 
 .filter-input {

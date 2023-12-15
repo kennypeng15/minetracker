@@ -5,15 +5,15 @@ export default function StatisticsContainer({ dataList }) {
     return (
         <>
             <div className="statistics-container">
-                <div className="stat-tile">
-                    {dataList.some(d => d["board-solved"]) && <StatDisplay dataList={dataList.filter(d => d["board-solved"])} />}
-                </div>
-                <div className="stat-tile">
-                    {dataList.some(d => !d["board-solved"]) && <StatDisplay dataList={dataList.filter(d => !d["board-solved"])} />}
-                </div>
-                <div className="stat-tile">
-                    {dataList.some(d => !d["board-solved"]) && <StatDisplay dataList={dataList} />}
-                </div>
+                {dataList.some(d => d["board-solved"]) && <div className="stat-tile">
+                    <StatDisplay dataList={dataList.filter(d => d["board-solved"])} />
+                </div>}
+                {dataList.some(d => !d["board-solved"]) && <div className="stat-tile">
+                    <StatDisplay dataList={dataList.filter(d => !d["board-solved"])} />
+                </div>}
+                {dataList.some(d => !d["board-solved"]) && <div className="stat-tile">
+                    <StatDisplay dataList={dataList} />
+                </div>}
             </div>
         </>
     )

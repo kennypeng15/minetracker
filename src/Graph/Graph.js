@@ -31,57 +31,59 @@ export default function Graph({ dataList }) {
 
     return (
         <>
-            <ResponsiveContainer width="98%" height={700}>
-                <ScatterChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-                    <CartesianGrid />
-                    {graphYAxis === "time" && <YAxis type="number" dataKey="effectiveTime" name="Time" unit="s" domain={['auto', 'auto']} />}
-                    {graphYAxis === "3bvps" && <YAxis type="number" dataKey="game-3bvps" name="3BV p/ second" domain={['auto', 'auto']} />}
-                    {graphYAxis === "efficiency" && <YAxis type="number" dataKey="efficiency" name="Efficiency" domain={['auto', 'auto']} />}
-                    <XAxis
-                        type="number"
-                        dataKey="epochValue"
-                        name="Unix Date"
-                        tickFormatter={(unixTime) => moment(unixTime).format('MM/DD/YY')}
-                        interval={0} domain={['auto', 'auto']}
-                        tickCount={8}
-                        padding={{ left: 35, right: 35 }}
-                    />
-                    <Scatter
-                        name="Line of Best Fit"
-                        data={lineOfBestFitData}
-                        fill="#46e7f2"
-                        shape={RenderDot}
-                        line={{ strokeWidth: 1.5 }}
-                        hide={!regressionVisible}
-                        legendType={regressionVisible ? "circle" : "none"}
-                    />
-                    <Scatter
-                        name="Minesweeper Games (Wins)"
-                        data={dataList.filter(d => d["board-solved"])}
-                        fill="#1ba843"
-                        shape={"circle"}
-                        onClick={d => window.open("https://minesweeper.online/game/" + d["game-id"], "_blank")}
-                    />
-                    <Scatter
-                        name="Minesweeper Games (Losses)"
-                        data={dataList.filter(d => !d["board-solved"])}
-                        fill="#faa141"
-                        shape={"cross"}
-                        hide={solvedOnly}
-                        legendType={solvedOnly ? "none" : "circle"}
-                    />
-                    <Scatter
-                        name={"Moving Average (" + movingAverageWindow + ")"}
-                        data={movingAverageData}
-                        fill="#f244ef"
-                        shape={RenderDot}
-                        line={{ strokeWidth: 1 }}
-                        hide={!movingAverageVisible}
-                        legendType={movingAverageVisible ? "circle" : "none"} />
-                    <Tooltip cursor={{ strokeDasharray: '3 3' }} content={CustomTooltip} />
-                    {<Legend />}
-                </ScatterChart>
-            </ResponsiveContainer>
+            <div className="graph-wrapper">
+                <ResponsiveContainer width="98%" height={700}>
+                    <ScatterChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+                        <CartesianGrid />
+                        {graphYAxis === "time" && <YAxis type="number" dataKey="effectiveTime" name="Time" unit="s" domain={['auto', 'auto']} />}
+                        {graphYAxis === "3bvps" && <YAxis type="number" dataKey="game-3bvps" name="3BV p/ second" domain={['auto', 'auto']} />}
+                        {graphYAxis === "efficiency" && <YAxis type="number" dataKey="efficiency" name="Efficiency" domain={['auto', 'auto']} />}
+                        <XAxis
+                            type="number"
+                            dataKey="epochValue"
+                            name="Unix Date"
+                            tickFormatter={(unixTime) => moment(unixTime).format('MM/DD/YY')}
+                            interval={0} domain={['auto', 'auto']}
+                            tickCount={8}
+                            padding={{ left: 35, right: 35 }}
+                        />
+                        <Scatter
+                            name="Line of Best Fit"
+                            data={lineOfBestFitData}
+                            fill="#46e7f2"
+                            shape={RenderDot}
+                            line={{ strokeWidth: 1.5 }}
+                            hide={!regressionVisible}
+                            legendType={regressionVisible ? "circle" : "none"}
+                        />
+                        <Scatter
+                            name="Minesweeper Games (Wins)"
+                            data={dataList.filter(d => d["board-solved"])}
+                            fill="#1ba843"
+                            shape={"circle"}
+                            onClick={d => window.open("https://minesweeper.online/game/" + d["game-id"], "_blank")}
+                        />
+                        <Scatter
+                            name="Minesweeper Games (Losses)"
+                            data={dataList.filter(d => !d["board-solved"])}
+                            fill="#faa141"
+                            shape={"cross"}
+                            hide={solvedOnly}
+                            legendType={solvedOnly ? "none" : "circle"}
+                        />
+                        <Scatter
+                            name={"Moving Average (" + movingAverageWindow + ")"}
+                            data={movingAverageData}
+                            fill="#f244ef"
+                            shape={RenderDot}
+                            line={{ strokeWidth: 1 }}
+                            hide={!movingAverageVisible}
+                            legendType={movingAverageVisible ? "circle" : "none"} />
+                        <Tooltip cursor={{ strokeDasharray: '3 3' }} content={CustomTooltip} />
+                        {<Legend />}
+                    </ScatterChart>
+                </ResponsiveContainer>
+            </div>
             <div className="graph-view-options-container">
                 <div className="graph-view-option">
                     <div className="graph-view-option-title">
