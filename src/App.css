@@ -5,6 +5,13 @@
   min-height: 100vh;
 }
 
+.app-wrapper-dark {
+  background-color: rgb(71, 71, 71);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
 hr {
   border: 0;
   height: 1px;
@@ -80,4 +87,16 @@ hr {
   text-align: center;
   font-size: smaller;
   padding-top: 1%;
+}
+
+.toggle-wrapper {
+  vertical-align: middle;
+}
+
+.custom-toggle-colors.react-toggle--checked .react-toggle-track {
+  background-color: #0e249f;
+}
+
+.custom-toggle-colors.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: #95a3f0;
 }

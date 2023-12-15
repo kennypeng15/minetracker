@@ -3,6 +3,8 @@ import axios from "axios";
 import axiosRetry from "axios-retry";
 import moment from 'moment'
 import ClipLoader from "react-spinners/ClipLoader";
+import Toggle from 'react-toggle'
+import "react-toggle/style.css"
 import Header from "./Header/Header";
 import Graph from "./Graph/Graph";
 import StatisticsContainer from "./StatisticsContainer/StatisticsContainer";
@@ -18,6 +20,7 @@ export default function App() {
   const [minEfficiency, setMinEfficiency] = useState("0");
   const [latestDataTimestamp, setLatestDataTimestamp] = useState("not available yet");
   const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
 
   // retry axios requests if they fail
   // helpful to avoid not having any data on first page load.
@@ -85,7 +88,7 @@ export default function App() {
 
   return (
     <>
-      <div className="app-wrapper">
+      <div className={darkMode ? "app-wrapper-dark" : "app-wrapper"}>
         <Header />
         <div className="latest-timestamp">
           <p>
@@ -210,6 +213,17 @@ export default function App() {
         </div>}
         <hr />
         <Footer />
+        <div className="toggle-wrapper">
+          <Toggle
+            defaultChecked={darkMode}
+            onChange={() => setDarkMode(!darkMode)}
+            className='custom-toggle-colors'
+            icons={{
+              checked: <div style={{paddingTop: "4px"}} role="img" aria-label="sun">🌙</div>,
+              unchecked: <div style={{paddingTop: "4px"}} role="img" aria-label="sun">☀️</div>,
+            }}
+            aria-label="Dark mode toggle" />
+        </div>
       </div>
     </>
   );
