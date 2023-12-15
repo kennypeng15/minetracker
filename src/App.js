@@ -93,41 +93,51 @@ export default function App() {
           </p>
         </div>
         <hr />
-        <div className="filter-selector">
+        <div className="filter-container">
           <div className="filter">
-            Difficulty:
-            <p>
-              <label>
-                <input type="radio" name="difficultySelectorRadio" defaultChecked={true} onChange={() => setDifficulty("expert")} /> Expert
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="radio" name="difficultySelectorRadio" onChange={() => setDifficulty("intermediate")} /> Intermediate
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="radio" name="difficultySelectorRadio" onChange={() => setDifficulty("beginner")} /> Beginner
-              </label>
-            </p>
+            <div className="filter-title">
+              Difficulty:
+            </div>
+            <div className="filter-radio">
+              <p>
+                <label>
+                  <input type="radio" name="difficultySelectorRadio" defaultChecked={true} onChange={() => setDifficulty("expert")} /> Expert
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="radio" name="difficultySelectorRadio" onChange={() => setDifficulty("intermediate")} /> Intermediate
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="radio" name="difficultySelectorRadio" onChange={() => setDifficulty("beginner")} /> Beginner
+                </label>
+              </p>
+            </div>
           </div>
           <div className="filter">
-            Solved only?
-            <p>
-              <label>
-                <input type="radio" name="solvedOnlyRadio" value={true} defaultChecked={true} onChange={() => setSolvedOnly(true)} /> Yes
-              </label>
-            </p>
-            <p>
-              <label>
-                <input type="radio" name="solvedOnlyRadio" value={false} onChange={() => setSolvedOnly(false)} /> No
-              </label>
-            </p>
+            <div className="filter-title">
+              Solved only?
+            </div>
+            <div className="filter-radio">
+              <p>
+                <label>
+                  <input type="radio" name="solvedOnlyRadio" value={true} defaultChecked={true} onChange={() => setSolvedOnly(true)} /> Yes
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="radio" name="solvedOnlyRadio" value={false} onChange={() => setSolvedOnly(false)} /> No
+                </label>
+              </p>
+            </div>
           </div>
           {!solvedOnly && <div className="filter">
-            Min. solved %: (current: {minSolvedPercent}%)
-            <p>
+            <div className="filter-title">
+              Min. solved %: (current: {minSolvedPercent}%)
+            </div>
+            <div className="filter-input">
               <input name="minSolvedPercentInput" defaultValue={minSolvedPercent} ref={minSolvedPercentRef} />
               <button onClick={() => {
                 if (parseInt(minSolvedPercentRef.current.value) && parseInt(minSolvedPercentRef.current.value) >= 50) {
@@ -139,11 +149,13 @@ export default function App() {
               }}>
                 Go!
               </button>
-            </p>
+            </div>
           </div>}
           <div className="filter">
-            Min. board 3BV: (current: {minBoard3bv})
-            <p>
+            <div className="filter-title">
+              Min. board 3BV: (current: {minBoard3bv})
+            </div>
+            <div className="filter-input">
               <input name="minBoard3bvInput" defaultValue="0" ref={minBoard3bvRef} />
               <button onClick={() => {
                 // parseInt is falsey for 0, so we need a separate check
@@ -156,11 +168,13 @@ export default function App() {
               }}>
                 Go!
               </button>
-            </p>
+            </div>
           </div>
           <div className="filter">
-            Min. efficiency: (current: {minEfficiency})
-            <p>
+            <div className="filter-title">
+              Min. efficiency: (current: {minEfficiency})
+            </div>
+            <div className="filter-input">
               <input name="minEfficiencyInput" defaultValue="0" ref={minEfficiencyRef} />
               <button onClick={() => {
                 if (minEfficiencyRef.current.value.trim() === "0" || (parseInt(minEfficiencyRef.current.value) && parseInt(minEfficiencyRef.current.value) >= 0)) {
@@ -172,7 +186,7 @@ export default function App() {
               }}>
                 Go!
               </button>
-            </p>
+            </div>
           </div>
         </div>
         {loading && <div className="spinner">
@@ -190,6 +204,7 @@ export default function App() {
           </h2>
         </div>}
         {!loading && dataList.length > 0 && <Graph dataList={dataList} />}
+        {!loading && dataList.length > 0 && <hr />}
         {!loading && dataList.length > 0 && <StatisticsContainer dataList={dataList} />}
         {!solvedOnly && <div className="solved-only-disclaimer">
           Note: for unsolved games, the estimated time is used for all displays and calculations.

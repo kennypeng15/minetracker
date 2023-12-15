@@ -82,54 +82,68 @@ export default function Graph({ dataList }) {
                     {<Legend />}
                 </ScatterChart>
             </ResponsiveContainer>
-            <div className="graph-view-options">
-                <div>
-                    Y-Axis view variable:
-                    <p>
-                        <label>
-                            <input type="radio" name="yAxisSelectorRadio" defaultChecked={true} onChange={() => setGraphYAxis("time")} /> Time
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input type="radio" name="yAxisSelectorRadio" onChange={() => setGraphYAxis("3bvps")} /> 3BV / second
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input type="radio" name="yAxisSelectorRadio" onChange={() => setGraphYAxis("efficiency")} /> Efficiency
-                        </label>
-                    </p>
+            <div className="graph-view-options-container">
+                <div className="graph-view-option">
+                    <div className="graph-view-option-title">
+                        Y-Axis view variable:
+                    </div>
+                    <div className="graph-view-option-radio">
+                        <p>
+                            <label>
+                                <input type="radio" name="yAxisSelectorRadio" defaultChecked={true} onChange={() => setGraphYAxis("time")} /> Time
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="yAxisSelectorRadio" onChange={() => setGraphYAxis("3bvps")} /> 3BV / second
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="yAxisSelectorRadio" onChange={() => setGraphYAxis("efficiency")} /> Efficiency
+                            </label>
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    Display line of best fit?
-                    <p>
-                        <label>
-                            <input type="radio" name="displayLineofBestFitRadio" defaultChecked={true} onChange={() => setRegressionVisible(true)} /> Yes
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input type="radio" name="displayLineofBestFitRadio" onChange={() => setRegressionVisible(false)} /> No
-                        </label>
-                    </p>
+                <div className="graph-view-option">
+                    <div className="graph-view-option-title">
+                        Display line of best fit?                        
+                    </div>
+                    <div className="graph-view-option-radio">
+                        <p>
+                            <label>
+                                <input type="radio" name="displayLineofBestFitRadio" defaultChecked={true} onChange={() => setRegressionVisible(true)} /> Yes
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="displayLineofBestFitRadio" onChange={() => setRegressionVisible(false)} /> No
+                            </label>
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    Display moving average?
-                    <p>
-                        <label>
-                            <input type="radio" name="displayMovingAverageRadio" defaultChecked={true} onChange={() => setMovingAverageVisible(true)} /> Yes
-                        </label>
-                    </p>
-                    <p>
-                        <label>
-                            <input type="radio" name="displayMovingAverageRadio" onChange={() => setMovingAverageVisible(false)} /> No
-                        </label>
-                    </p>
+                <div className="graph-view-option">
+                    <div className="graph-view-option-title">
+                        Display moving average?
+                    </div>
+                    <div className="graph-view-option-radio">
+                        <p>
+                            <label>
+                                <input type="radio" name="displayMovingAverageRadio" defaultChecked={true} onChange={() => setMovingAverageVisible(true)} /> Yes
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input type="radio" name="displayMovingAverageRadio" onChange={() => setMovingAverageVisible(false)} /> No
+                            </label>
+                        </p>
+                    </div>
                 </div>
-                {movingAverageVisible && <div>
-                    Moving average window size: (current: {movingAverageWindow})
-                    <p>
+                {movingAverageVisible && <div className="graph-view-option">
+                    <div className="graph-view-option-title">
+                        Moving average window size: (current: {movingAverageWindow})
+                    </div>    
+                    <div className="graph-view-option-input">
                         <input name="textInput4" defaultValue={movingAverageWindow} ref={movingAverageWindowRef} />
                         <button onClick={() => {
                             if (parseInt(movingAverageWindowRef.current.value) && parseInt(movingAverageWindowRef.current.value) >= 1) {
@@ -141,7 +155,7 @@ export default function Graph({ dataList }) {
                         }}>
                             Go!
                         </button>
-                    </p>
+                    </div>
                 </div>}
             </div>
         </>

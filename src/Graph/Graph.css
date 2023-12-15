@@ -1,11 +1,39 @@
-.graph-view-options {
+.graph-view-options-container {
     text-align: left;
     font-size: medium;
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
-    padding-bottom: 0%;
-    padding-top: 2%;
-    padding-left: 1%;
+    padding: 1%;
+  }
+
+  .graph-view-option {
+    justify-content: center;
+    text-align: left;
+    padding: 1%;
+    margin: 0.5%;
+  }
+  
+  .graph-view-option-title {
+    text-align: center;
+  }
+  
+  .graph-view-option-input {
+    align-items: center;
+    min-height: fit-content;
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+  }
+  
+  .graph-view-option-radio {
+    align-items: center;
+    min-height: fit-content;
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+  }
+  
+  .graph-view-option-radio > p {
     padding-right: 1%;
   }

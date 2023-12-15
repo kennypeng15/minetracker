@@ -1,10 +1,3 @@
-.App {
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  min-height: 100%;
-}
-
 .app-wrapper {
   background-color: rgb(241, 244, 248);
   margin: 0;
@@ -22,19 +15,45 @@ hr {
   text-align: center;
 }
 
-.filter {
-  justify-content: center;
-  text-align: left;
-  padding: 1%;
-}
-
-.filter-selector {
+.filter-container {
   text-align: center;
   font-size: medium;
   padding: 1%;
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
+}
+
+.filter {
+  justify-content: center;
+  text-align: left;
+  padding: 1%;
+  margin: 0.5%;
+}
+
+.filter-title {
+  text-align: center;
+}
+
+.filter-input {
+  align-items: center;
+  min-height: fit-content;
+  display: flex;
+  justify-content: center;
+  padding: 2%;
+}
+
+.filter-radio {
+  align-items: center;
+  min-height: fit-content;
+  display: flex;
+  justify-content: center;
+  padding: 2%;
+
+}
+
+.filter-radio > p {
+  padding-right: 1%;
 }
 
 .spinner {
