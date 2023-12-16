@@ -12,6 +12,10 @@
   min-height: 100vh;
 }
 
+.app-wrapper-dark {
+  color: rgb(244, 244, 244);
+}
+
 hr {
   border: 0;
   height: 1px;
@@ -43,6 +47,14 @@ hr {
 .filter-title {
   text-align: center;
   background-color: rgb(228, 230, 236);
+  border-radius: 15px;
+  margin: 0.5%;
+  padding: 1%;
+}
+
+.filter-title-dark {
+  text-align: center;
+  background-color: rgb(113, 113, 113);
   border-radius: 15px;
   margin: 0.5%;
   padding: 1%;

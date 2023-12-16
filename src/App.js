@@ -98,7 +98,7 @@ export default function App() {
         <hr />
         <div className="filter-container">
           <div className="filter">
-            <div className="filter-title">
+            <div className={darkMode ? "filter-title-dark" : "filter-title"}>
               Difficulty:
             </div>
             <div className="filter-radio">
@@ -120,7 +120,7 @@ export default function App() {
             </div>
           </div>
           <div className="filter">
-            <div className="filter-title">
+            <div className={darkMode ? "filter-title-dark" : "filter-title"}>
               Solved only?
             </div>
             <div className="filter-radio">
@@ -137,7 +137,7 @@ export default function App() {
             </div>
           </div>
           {!solvedOnly && <div className="filter">
-            <div className="filter-title">
+            <div className={darkMode ? "filter-title-dark" : "filter-title"}>
               Min. solved %: (current: {minSolvedPercent}%)
             </div>
             <div className="filter-input">
@@ -155,7 +155,7 @@ export default function App() {
             </div>
           </div>}
           <div className="filter">
-            <div className="filter-title">
+            <div className={darkMode ? "filter-title-dark" : "filter-title"}>
               Min. board 3BV: (current: {minBoard3bv})
             </div>
             <div className="filter-input">
@@ -174,7 +174,7 @@ export default function App() {
             </div>
           </div>
           <div className="filter">
-            <div className="filter-title">
+            <div className={darkMode ? "filter-title-dark" : "filter-title"}>
               Min. efficiency: (current: {minEfficiency})
             </div>
             <div className="filter-input">
@@ -206,8 +206,8 @@ export default function App() {
             No data available for the selected filters.
           </h2>
         </div>}
-        {!loading && dataList.length > 0 && <Graph dataList={dataList} />}
-        {!loading && dataList.length > 0 && <StatisticsContainer dataList={dataList} />}
+        {!loading && dataList.length > 0 && <Graph dataList={dataList} darkMode={darkMode} />}
+        {!loading && dataList.length > 0 && <StatisticsContainer dataList={dataList} darkMode={darkMode} />}
         {!solvedOnly && <div className="solved-only-disclaimer">
           Note: for unsolved games, the estimated time is used for all displays and calculations.
         </div>}
@@ -230,7 +230,6 @@ export default function App() {
 }
 
 // backlog
-// dark mode ?
 // qol: toggle to clear all filters?
 // rename to be more consistent (i.e., this-casing vs thisCasing)
 // consolidate shared css into a common css file ?

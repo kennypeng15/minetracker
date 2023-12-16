@@ -23,6 +23,14 @@
     margin: 0.5%;
     padding: 1%
   }
+
+  .graph-view-option-title-dark {
+    text-align: center;
+    background-color: rgb(113, 113, 113);
+    border-radius: 15px;
+    margin: 0.5%;
+    padding: 1%;
+  }
   
   .graph-view-option-input {
     align-items: center;

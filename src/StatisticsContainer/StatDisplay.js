@@ -1,6 +1,6 @@
 import "./StatDisplay.css"
 
-export default function StatDisplay({ dataList }) {
+export default function StatDisplay({ dataList, darkMode }) {
   const onlySolvedEntries = dataList.every(d => d["board-solved"]);
   const onlyUnsolvedEntries = dataList.every(d => !d["board-solved"]);
 
@@ -23,7 +23,7 @@ export default function StatDisplay({ dataList }) {
 
   return (
     <>
-      <div className="stat-header">
+      <div className={darkMode ? "stat-header-dark" : "stat-header"}>
         {headerText}
       </div>
       <div className="stat-grid-container">

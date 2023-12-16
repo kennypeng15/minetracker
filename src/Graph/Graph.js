@@ -6,7 +6,7 @@ import LinearRegression from "./LinearRegression";
 import MovingAverage from "./MovingAverage";
 import "./Graph.css";
 
-export default function Graph({ dataList }) {
+export default function Graph({ dataList, darkMode }) {
     const [graphYAxis, setGraphYAxis] = useState("time")
     const [regressionVisible, setRegressionVisible] = useState(true);
     const [movingAverageVisible, setMovingAverageVisible] = useState(true);
@@ -34,10 +34,29 @@ export default function Graph({ dataList }) {
             <div className="graph-wrapper">
                 <ResponsiveContainer width="98%" height={700}>
                     <ScatterChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-                        <CartesianGrid />
-                        {graphYAxis === "time" && <YAxis type="number" dataKey="effectiveTime" name="Time" unit="s" domain={['auto', 'auto']} />}
-                        {graphYAxis === "3bvps" && <YAxis type="number" dataKey="game-3bvps" name="3BV p/ second" domain={['auto', 'auto']} />}
-                        {graphYAxis === "efficiency" && <YAxis type="number" dataKey="efficiency" name="Efficiency" domain={['auto', 'auto']} />}
+                        <CartesianGrid stroke={darkMode ? "#7d7d7d" : "#d1d1d1"} />
+                        {graphYAxis === "time" && <YAxis 
+                            type="number" 
+                            dataKey="effectiveTime" 
+                            name="Time"
+                            unit="s" 
+                            domain={['auto', 'auto']} 
+                            stroke={darkMode ? "#e0e0e0" : "#6e6e6e"}
+                        />}
+                        {graphYAxis === "3bvps" && <YAxis 
+                            type="number" 
+                            dataKey="game-3bvps" 
+                            name="3BV p/ second" 
+                            domain={['auto', 'auto']} 
+                            stroke={darkMode ? "#e0e0e0" : "#6e6e6e"}
+                        />}
+                        {graphYAxis === "efficiency" && <YAxis 
+                            type="number" 
+                            dataKey="efficiency" 
+                            name="Efficiency" 
+                            domain={['auto', 'auto']} 
+                            stroke={darkMode ? "#e0e0e0" : "#6e6e6e"}
+                        />}
                         <XAxis
                             type="number"
                             dataKey="epochValue"
@@ -46,6 +65,7 @@ export default function Graph({ dataList }) {
                             interval={0} domain={['auto', 'auto']}
                             tickCount={8}
                             padding={{ left: 35, right: 35 }}
+                            stroke={darkMode ? "#e0e0e0" : "#6e6e6e"}
                         />
                         <Scatter
                             name="Line of Best Fit"
@@ -80,13 +100,13 @@ export default function Graph({ dataList }) {
                             hide={!movingAverageVisible}
                             legendType={movingAverageVisible ? "circle" : "none"} />
                         <Tooltip cursor={{ strokeDasharray: '3 3' }} content={CustomTooltip} />
-                        {<Legend />}
+                        <Legend />
                     </ScatterChart>
                 </ResponsiveContainer>
             </div>
             <div className="graph-view-options-container">
                 <div className="graph-view-option">
-                    <div className="graph-view-option-title">
+                    <div className={darkMode ? "graph-view-option-title-dark" : "graph-view-option-title"}>
                         Y-Axis view variable:
                     </div>
                     <div className="graph-view-option-radio">
@@ -108,8 +128,8 @@ export default function Graph({ dataList }) {
                     </div>
                 </div>
                 <div className="graph-view-option">
-                    <div className="graph-view-option-title">
-                        Display line of best fit?                        
+                    <div className={darkMode ? "graph-view-option-title-dark" : "graph-view-option-title"}>
+                        Display line of best fit?
                     </div>
                     <div className="graph-view-option-radio">
                         <p>
@@ -125,7 +145,7 @@ export default function Graph({ dataList }) {
                     </div>
                 </div>
                 <div className="graph-view-option">
-                    <div className="graph-view-option-title">
+                    <div className={darkMode ? "graph-view-option-title-dark" : "graph-view-option-title"}>
                         Display moving average?
                     </div>
                     <div className="graph-view-option-radio">
@@ -142,9 +162,9 @@ export default function Graph({ dataList }) {
                     </div>
                 </div>
                 {movingAverageVisible && <div className="graph-view-option">
-                    <div className="graph-view-option-title">
+                    <div className={darkMode ? "graph-view-option-title-dark" : "graph-view-option-title"}>
                         Moving average window size: (current: {movingAverageWindow})
-                    </div>    
+                    </div>
                     <div className="graph-view-option-input">
                         <input name="textInput4" defaultValue={movingAverageWindow} ref={movingAverageWindowRef} />
                         <button onClick={() => {
