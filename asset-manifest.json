@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/minetracker/static/css/main.60a49d41.css",
-    "main.js": "/minetracker/static/js/main.69fda22c.js",
+    "main.css": "/minetracker/static/css/main.60811930.css",
+    "main.js": "/minetracker/static/js/main.4334de0f.js",
     "static/js/787.29662997.chunk.js": "/minetracker/static/js/787.29662997.chunk.js",
     "index.html": "/minetracker/index.html",
-    "main.60a49d41.css.map": "/minetracker/static/css/main.60a49d41.css.map",
-    "main.69fda22c.js.map": "/minetracker/static/js/main.69fda22c.js.map",
+    "main.60811930.css.map": "/minetracker/static/css/main.60811930.css.map",
+    "main.4334de0f.js.map": "/minetracker/static/js/main.4334de0f.js.map",
     "787.29662997.chunk.js.map": "/minetracker/static/js/787.29662997.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.60a49d41.css",
-    "static/js/main.69fda22c.js"
+    "static/css/main.60811930.css",
+    "static/js/main.4334de0f.js"
   ]
 }
