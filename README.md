@@ -14,7 +14,7 @@ and provides an interface for exploring the data returned. The `axios` library i
 for constructing graphs. 
 
 ## Hosting and Deployment
-This application is publicly available at kennypeng15.github.io/minetracker/, as it is hosted on GitHub pages.
+This application is publicly available at https://kennypeng15.github.io/minetracker/, as it is hosted on GitHub pages.
 A custom GitHub action uses the `react-gh-pages` library to automatically push an updated build to the
 GitHub repository's `gh-pages` branch whenever changes are made to `main`, meaning source code changes are reflected automatically
 on the public site.
