@@ -1,7 +1,8 @@
 # minetracker
 ---
 
-(this README focuses on the frontend project only. for the write-up about MineTracker as a whole, see TODO)
+(this README focuses on the frontend project only. for the write-up about MineTracker as a whole, 
+see https://kennypeng15.github.io/projects/minetracker/index.html)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
