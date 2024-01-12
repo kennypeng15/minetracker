@@ -9,8 +9,7 @@ export default function Footer() {
                     It's hosted on GitHub Pages and deployed with GitHub Actions and the <a href="https://github.com/gitname/react-gh-pages">react-gh-pages</a> library.
                 </p>
                 <p>
-                    Writeups about <a href="https://github.com/kennypeng15/minetracker">this frontend specifically</a> 
-                    and <a href="https://kennypeng15.github.io/projects/minetracker/index.html">the entire MineTracker Project</a> are also available.
+                    Writeups about <a href="https://github.com/kennypeng15/minetracker">this frontend specifically</a> and <a href="https://kennypeng15.github.io/projects/minetracker/index.html">the entire MineTracker Project</a> are also available.
                 </p>
                 <p>
                     The source code for this page and for the MineTracker project in general can be found on <a href="https://github.com/kennypeng15">my GitHub page.</a>
