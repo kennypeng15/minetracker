@@ -200,7 +200,7 @@ export default function App() {
               </button>
             </div>
           </div>
-          <div className="spacer"/>
+          {solvedOnly && <div className="spacer"/>}
           <div className="filter">
             <div className={darkMode ? "filter-title-dark" : "filter-title"}>
               Earliest date (YYYY-MM-DD; current: {earliestDate === "" ? "N/A" : earliestDate}):
