@@ -18,6 +18,8 @@ export default function App() {
   const [minSolvedPercent, setMinSolvedPercent] = useState("100");
   const [minBoard3bv, setMinBoard3bv] = useState("0");
   const [minEfficiency, setMinEfficiency] = useState("0");
+  const [earliestDate, setEarliestDate] = useState("")
+  const [latestDate, setLatestDate] = useState("")
   const [latestDataTimestamp, setLatestDataTimestamp] = useState("not available yet");
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
@@ -37,6 +39,12 @@ export default function App() {
     dataQueryUrl = dataQueryUrl + "&solved_percent_threshold=" + (minSolvedPercent.length > 0 ? minSolvedPercent : "100");
     dataQueryUrl = dataQueryUrl + "&3bv_threshold=" + (minBoard3bv.length > 0 ? minBoard3bv : "0");
     dataQueryUrl = dataQueryUrl + "&efficiency_threshold=" + (minEfficiency.length > 0 ? minEfficiency : "0");
+    if (earliestDate !== "") {
+      dataQueryUrl = dataQueryUrl + "&earliest_date=" + earliestDate;
+    }
+    if (latestDate !== "") {
+      dataQueryUrl = dataQueryUrl + "&latest_date=" + latestDate;
+    }
 
     // define an async function for data retrieval here so it plays nice with useEffect()
     // [see https://stackoverflow.com/questions/53332321/react-hook-warnings-for-async-function-in-useeffect-useeffect-function-must-ret]
@@ -44,47 +52,48 @@ export default function App() {
     const getAndSetGameDataAndTimestamp = async () => {
       // if we want the loading spinner only on first load, comment out the below.
       // setLoading(true);
-      const gameData = (await axios.get(dataQueryUrl)).data;
-      gameData.forEach(d => {
-        d.epochValue = moment(d["game-timestamp"]).valueOf(); // date -> epoch
-        // use "effectiveTime" since we can technically have "Time" or "Estimated Time"
-        d.effectiveTime = d["board-solved"]
-          ? d["elapsed-time"]
-          : d["estimated-time"];
-      });
-      setDataList(gameData);
-
-      const timestampData = (await axios.get("https://kennypeng15.pythonanywhere.com/latest-timestamp")).data;
-      setLatestDataTimestamp(timestampData["latest-timestamp"]);
+      try {
+        const gameData = (await axios.get(dataQueryUrl)).data;
+        gameData.forEach(d => {
+          d.epochValue = moment(d["game-timestamp"]).valueOf(); // date -> epoch
+          // use "effectiveTime" since we can technically have "Time" or "Estimated Time"
+          d.effectiveTime = d["board-solved"]
+            ? d["elapsed-time"]
+            : d["estimated-time"];
+        });
+        setDataList(gameData);
+  
+        const timestampData = (await axios.get("https://kennypeng15.pythonanywhere.com/latest-timestamp")).data;
+        setLatestDataTimestamp(timestampData["latest-timestamp"]);
+      }
+      catch (err) {
+        if (err.response) {
+          // non-2xx status code
+          alert("Request for data failed - status code did not indicate success: " + err.response.data + ", " + err.response.status);
+        }
+        else if (err.request) {
+          // request made, no response received
+          alert("Request for data failed - no response was received: " + err.request)
+        }
+        else {
+          // something else went wrong
+          alert("Request for data failed: " + err.message)
+        }
+      }
       // this could be moved after the first set as well, if we want it displayed for slightly less time.
       setLoading(false);
     }
 
-    try {
-      getAndSetGameDataAndTimestamp();
-    }
-    catch (err) {
-      if (err.response) {
-        // non-2xx status code
-        alert("Request for data failed - status code did not indicate success: " + err.response.data + ", " + err.response.status);
-      }
-      else if (err.request) {
-        // request made, no response received
-        alert("Request for data failed - no response was received: " + err.request)
-      }
-      else {
-        // something else went wrong
-        alert("Request for data failed: " + err.message)
-      }
-      setDataList([]);
-    }
-  }, [difficulty, solvedOnly, minSolvedPercent, minBoard3bv, minEfficiency])
+    getAndSetGameDataAndTimestamp();
+  }, [difficulty, solvedOnly, minSolvedPercent, minBoard3bv, minEfficiency, earliestDate, latestDate])
   // see https://react.dev/reference/react/useEffect#examples-dependencies
 
   // swag https://stackoverflow.com/questions/57302715/how-to-get-input-field-value-on-button-click-in-react
   const minSolvedPercentRef = useRef(null);
   const minBoard3bvRef = useRef(null);
   const minEfficiencyRef = useRef(null);
+  const earliestDateRef = useRef(null);
+  const latestDateRef = useRef(null);
 
   return (
     <>
@@ -188,6 +197,55 @@ export default function App() {
                 }
               }}>
                 Go!
+              </button>
+            </div>
+          </div>
+          <div className="spacer"/>
+          <div className="filter">
+            <div className={darkMode ? "filter-title-dark" : "filter-title"}>
+              Earliest date (YYYY-MM-DD; current: {earliestDate === "" ? "N/A" : earliestDate}):
+            </div>
+            <div className="filter-input">
+              <input name="earliestDateInput" defaultValue="" ref={earliestDateRef} />
+              <button onClick={() => {
+                if (moment(earliestDateRef.current.value.trim(), "YYYY-MM-DD", true).isValid()) {
+                  setEarliestDate(earliestDateRef.current.value.trim())
+                }
+                else {
+                  alert("Invalid filter input: earliest date must be a valid date in the format YYYY-MM-DD.")
+                }
+              }}>
+                Go!
+              </button>
+              <button onClick={() => {
+                setEarliestDate("");
+                earliestDateRef.current.value = "";
+              }}>
+                Reset
+              </button>
+            </div>
+          </div>
+          <div className="filter">
+            <div className={darkMode ? "filter-title-dark" : "filter-title"}>
+              Latest date (YYYY-MM-DD; current: {latestDate === "" ? "N/A" : latestDate}):
+            </div>
+            <div className="filter-input">
+              <input name="latestDateInput" defaultValue="" ref={latestDateRef} />
+              <button onClick={() => {
+                if (moment(latestDateRef.current.value.trim(), "YYYY-MM-DD", true).isValid()) {
+                  setLatestDate(latestDateRef.current.value.trim())
+                }
+                else {
+                  alert("Invalid filter input: latest date must be a valid date in the format YYYY-MM-DD.")
+                }
+              }}>
+                Go!
+              </button>
+              <button onClick={() => {
+                setLatestDate("");
+                latestDateRef.current.value = "";
+              }}>
+                Reset
               </button>
             </div>
           </div>

@@ -61,7 +61,7 @@ export default function Graph({ dataList, darkMode }) {
                             type="number"
                             dataKey="epochValue"
                             name="Unix Date"
-                            tickFormatter={(unixTime) => moment(unixTime).format('MM/DD/YY')}
+                            tickFormatter={(unixTime) => moment(unixTime).format('YYYY-MM-DD')}
                             interval={0} domain={['auto', 'auto']}
                             tickCount={8}
                             padding={{ left: 35, right: 35 }}
