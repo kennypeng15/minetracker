@@ -1,6 +1,6 @@
 export default function LinearRegression(dataList) {
   // modified from SO question 6195335/linear-regression-in-javascript
-  // calcuate for time as the y-axis variable (x-axis is always epoch value)
+  // calculate for time as the y-axis variable (x-axis is always epoch value)
   var lr = {};
   var n = dataList.length;
   var sum_x = 0;

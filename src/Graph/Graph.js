@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import moment from "moment";
 import CustomTooltip from "./CustomTooltip";
+import Histogram from "./Histogram";
 import LinearRegression from "./LinearRegression";
 import MovingAverage from "./MovingAverage";
 import "./Graph.css";
@@ -36,7 +37,7 @@ export default function Graph({ dataList, darkMode }) {
   // dot rendering function for "hidden" tooltips, i.e., when we want tooltips
   // to be available, but we don't actually want to see the points on the graph
   // for sake of visual clarity.
-  // the key here is to set fillOpacity = 0 --> transparently draws a circl
+  // the key here is to set fillOpacity = 0 --> transparently draws a circle
   function RenderDot({ cx, cy }) {
     return <Dot cx={cx} cy={cy} r={3} fill={"#ffffff"} fillOpacity={0} />;
   }
@@ -194,7 +195,7 @@ export default function Graph({ dataList, darkMode }) {
               <label>
                 <input
                   type="radio"
-                  name="displayLineofBestFitRadio"
+                  name="displayLineOfBestFitRadio"
                   defaultChecked={true}
                   onChange={() => setRegressionVisible(true)}
                 />{" "}
@@ -205,7 +206,7 @@ export default function Graph({ dataList, darkMode }) {
               <label>
                 <input
                   type="radio"
-                  name="displayLineofBestFitRadio"
+                  name="displayLineOfBestFitRadio"
                   onChange={() => setRegressionVisible(false)}
                 />{" "}
                 No
@@ -286,6 +287,7 @@ export default function Graph({ dataList, darkMode }) {
           </div>
         )}
       </div>
+      <Histogram dataList={dataList} darkMode={darkMode} graphYAxis={graphYAxis} />
     </>
   );
 }
