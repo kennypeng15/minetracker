@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   BarChart,
   Bar,
@@ -15,8 +15,8 @@ import "./Graph.css";
 export default function Histogram({ dataList, darkMode, graphYAxis }) {
   // experimental features!
   const [showExperimentalFeatures, setShowExperimentalFeatures] = useState(false);
-  const [histogramDisplayVisible, setHistogramDisplayVisible] = useState(false);
-  const [excludeOutliers, setExcludeOutliers] = useState(false);
+  // const [histogramDisplayVisible, setHistogramDisplayVisible] = useState(false);
+  // const [excludeOutliers, setExcludeOutliers] = useState(false);
   // show IQR?
   
   // for the histogram displays:
