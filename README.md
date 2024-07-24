@@ -10,7 +10,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 The frontend for the MineTracker application. Simply called `minetracker` (as opposed to, e.g., `minetracker-frontend`)
 for a simpler, cleaner URL.
 
-This is a React application that calls the API exposed by the `minetracker-api` project (https://github.com/kennypeng15/minetracker-lambda)
+This is a React application that calls the API exposed by the `minetracker-api` project (https://github.com/kennypeng15/minetracker-api)
 and provides an interface for exploring the data returned. The `axios` library is used to make calls, and `recharts` is used 
 for constructing graphs. 
 
